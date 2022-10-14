@@ -4,6 +4,7 @@ import com.example.springbootrentcar.entity.Auto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface AutoService {
     void updateAuto(Auto auto);
@@ -12,7 +13,7 @@ public interface AutoService {
 
     List<Auto> getAutoList();
 
-    Auto getAuto(int id);
+    Optional<Auto> getAuto(int id);
 
     List<Auto> getDataRange(LocalDate inizio, LocalDate fine);
 

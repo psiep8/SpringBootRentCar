@@ -5,6 +5,7 @@ import com.example.springbootrentcar.entity.Prenotazione;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface PrenotazioneService {
     void updatePrenotazione(Prenotazione prenotazione);
@@ -13,6 +14,6 @@ public interface PrenotazioneService {
 
     List<Prenotazione> getPrenotazioni();
 
-    Prenotazione getPrenotazione(int id);
+    Optional<Prenotazione> getPrenotazione(int id);
 
 }

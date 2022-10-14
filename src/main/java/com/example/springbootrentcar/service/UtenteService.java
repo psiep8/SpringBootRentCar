@@ -2,8 +2,10 @@ package com.example.springbootrentcar.service;
 
 import com.example.springbootrentcar.entity.Utente;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 public interface UtenteService {
     void updateUtente(Utente utente);
@@ -12,7 +14,7 @@ public interface UtenteService {
 
     List<Utente> getUtenti();
 
-    Utente getUser(int id);
+    Optional<Utente> getUser(int id);
 
     Utente getUserByEmail(String email);
 

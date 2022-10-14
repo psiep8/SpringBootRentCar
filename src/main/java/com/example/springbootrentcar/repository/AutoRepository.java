@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface AutoRepository extends JpaRepository<Auto, Integer> {
 
+    //specification
     List<Auto> getDataRange(LocalDate inizio, LocalDate fine);
 
 

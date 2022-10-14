@@ -5,22 +5,20 @@ import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.repository.UtenteRepository;
 import com.example.springbootrentcar.service.UtenteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional()
+@Transactional
+@RequiredArgsConstructor
 public class UtenteServiceImpl implements UtenteService {
 
-    UtenteRepository utenteRepository;
-    PrenotazioneRepository prenotazioneRepository;
-
-    public UtenteServiceImpl(UtenteRepository utenteDAO, PrenotazioneRepository prenotazioneDAO) {
-        this.utenteRepository = utenteDAO;
-        this.prenotazioneRepository = prenotazioneDAO;
-    }
+    private final UtenteRepository utenteRepository;
+    private final PrenotazioneRepository prenotazioneRepository;
 
     @Override
     @Transactional
@@ -40,8 +38,8 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     @Override
-    public Utente getUser(int id) {
-        return utenteRepository.getReferenceById(id);
+    public Optional<Utente> getUser(int id) {
+        return utenteRepository.findById(id);
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.example.springbootrentcar.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,7 +12,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "utente", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-@Data
+@Getter
+@Setter
 public class Utente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +35,6 @@ public class Utente implements Serializable {
     @Column(name = "telefono")
     private String telefono;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "dataNascita")
     private LocalDate dataNascita;
 

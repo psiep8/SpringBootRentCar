@@ -4,19 +4,19 @@ import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.service.PrenotazioneService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class PrenotazioneServiceImpl implements PrenotazioneService {
     private final PrenotazioneRepository prenotazioneRepository;
-
-    public PrenotazioneServiceImpl(PrenotazioneRepository prenotazioneRepository) {
-        this.prenotazioneRepository = prenotazioneRepository;
-    }
 
     @Transactional
     @Override
@@ -36,8 +36,8 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     }
 
     @Override
-    public Prenotazione getPrenotazione(int id) {
-        return prenotazioneRepository.getReferenceById(id);
+    public Optional<Prenotazione> getPrenotazione(int id) {
+        return prenotazioneRepository.findById(id);
     }
 
 }

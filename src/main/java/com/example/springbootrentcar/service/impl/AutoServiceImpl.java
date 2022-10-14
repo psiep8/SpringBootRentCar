@@ -3,19 +3,19 @@ package com.example.springbootrentcar.service.impl;
 import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.repository.AutoRepository;
 import com.example.springbootrentcar.service.AutoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class AutoServiceImpl implements AutoService {
     private final AutoRepository autoRepository;
-
-    public AutoServiceImpl(AutoRepository autoRepository) {
-        this.autoRepository = autoRepository;
-    }
 
     @Transactional
     @Override
@@ -35,8 +35,8 @@ public class AutoServiceImpl implements AutoService {
     }
 
     @Override
-    public Auto getAuto(int id) {
-        return autoRepository.getReferenceById(id);
+    public Optional<Auto> getAuto(int id) {
+        return autoRepository.findById(id);
     }
 
     @Override
