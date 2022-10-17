@@ -39,8 +39,8 @@ public class AutoServiceImpl implements AutoService {
         return autoRepository.findById(id);
     }
 
-    @Override
+   /* @Override
     public List<Auto> getDataRange(LocalDate inizio, LocalDate fine) {
         return autoRepository.getDataRange(inizio, fine);
-    }
+    }*/
 }

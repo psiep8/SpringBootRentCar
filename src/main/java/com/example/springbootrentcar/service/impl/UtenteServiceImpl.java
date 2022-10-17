@@ -6,12 +6,13 @@ import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.repository.UtenteRepository;
 import com.example.springbootrentcar.service.UtenteService;
+import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -56,8 +57,10 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     @Override
-    public List<String> getColumn(String campo, String filter) {
-        return utenteRepository.getColumn(campo, filter);
+    public List<Utente> getColumn(String campo, String filter) {
+        FieldSpecifications fs = new FieldSpecifications(campo, filter);
+        Specification<Utente> specification = Specification.where(fs);
+        return utenteRepository.findAll(specification);
     }
 
 }

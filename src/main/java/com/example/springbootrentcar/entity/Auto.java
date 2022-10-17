@@ -18,7 +18,7 @@ public class Auto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int idAuto;
+    private int id;
 
     @Column(name = "marca")
     private String marca;

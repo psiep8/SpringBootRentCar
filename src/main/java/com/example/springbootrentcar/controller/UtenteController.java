@@ -2,7 +2,9 @@ package com.example.springbootrentcar.controller;
 
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.service.UtenteService;
+import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,10 +62,11 @@ public class UtenteController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/search/{filter}/{campo}")
-    public ResponseEntity<List<String>> getCustomerByParam(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
-        List<String> filteredField = utenteService.getColumn(campo, filter);
+    @GetMapping("/filter/{filter}/{campo}")
+    public ResponseEntity<List<Utente>> getUserFiltered(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
+        List<Utente> filteredField = utenteService.getColumn(campo, filter);
         return ResponseEntity.ok(filteredField);
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.springbootrentcar.service;
 
 import com.example.springbootrentcar.entity.Auto;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +16,6 @@ public interface AutoService {
 
     Optional<Auto> getAuto(int id);
 
-    List<Auto> getDataRange(LocalDate inizio, LocalDate fine);
+  //  List<Auto> getDataRange(LocalDate inizio, LocalDate fine);
 
 }
