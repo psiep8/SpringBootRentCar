@@ -1,5 +1,6 @@
 package com.example.springbootrentcar.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
 public class UtenteDTO {
 
     private int id;
@@ -27,14 +29,5 @@ public class UtenteDTO {
 
     private boolean customer;
 
-    public UtenteDTO(int id, String nome, String cognome, String password, String email, String telefono, String dataNascita, boolean customer) {
-        this.id = id;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.password = password;
-        this.email = email;
-        this.telefono = telefono;
-        this.dataNascita = dataNascita;
-        this.customer = customer;
-    }
+
 }

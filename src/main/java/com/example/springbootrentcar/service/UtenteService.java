@@ -14,7 +14,7 @@ public interface UtenteService {
 
     List<Utente> getUtenti();
 
-    Optional<Utente> getUser(int id);
+    Utente getUser(int id);
 
     Utente getUserByEmail(String email);
 

@@ -2,6 +2,7 @@ package com.example.springbootrentcar.service.impl;
 
 import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.entity.Utente;
+import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.repository.UtenteRepository;
 import com.example.springbootrentcar.service.UtenteService;
@@ -38,8 +39,8 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     @Override
-    public Optional<Utente> getUser(int id) {
-        return utenteRepository.findById(id);
+    public Utente getUser(int id) {
+        return utenteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + id));
     }
 
     @Override

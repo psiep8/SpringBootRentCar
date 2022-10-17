@@ -21,10 +21,10 @@ public class Prenotazione implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "dataInizio")
+    @Column(name = "data_inizio")
     private LocalDate dataInizio;
 
-    @Column(name = "dataFine")
+    @Column(name = "data_fine")
     private LocalDate dataFine;
 
     @Column(name = "approvata")

@@ -3,43 +3,68 @@ package com.example.springbootrentcar.controller;
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.service.UtenteService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class UtenteController {
-    //private static final Logger logger = LoggerFactory.getLogger(UtenteController.class);
-
     private final UtenteService utenteService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Utente> listUtenti() {
         return utenteService.getUtenti();
     }
 
-    @PostMapping("/")
+    @PostMapping("/save")
     public void saveUtente(@RequestBody Utente utente) {
         utenteService.updateUtente(utente);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Utente>> getUtenteById(@PathVariable int id) {
-        Optional<Utente> utente = utenteService.getUser(id);
-        if (utente.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(utente, HttpStatus.OK);
-        }
+    public Utente getUtenteById(@PathVariable int id) {
+        return utenteService.getUser(id);
     }
 
-    // continuare
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Utente> updateUtente(@PathVariable int id, @RequestBody Utente utente) {
+        Utente u = utenteService.getUser(id);
+        u.setNome(utente.getNome());
+        u.setCognome(utente.getCognome());
+        u.setPassword(utente.getPassword());
+        u.setEmail(utente.getEmail());
+        u.setTelefono(utente.getTelefono());
+        u.setDataNascita(utente.getDataNascita());
+        utenteService.updateUtente(u);
+        return ResponseEntity.ok(u);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Utente> deleteUtente(@PathVariable int id) {
+        Utente u = utenteService.getUser(id);
+        utenteService.deleteUtente(u);
+        return ResponseEntity.ok(u);
+    }
+
+    @PostMapping("/approvata")
+    public void approvata(@RequestParam("approved") String approvata, @RequestParam int id) {
+        utenteService.approvaPrenotazione(approvata, id);
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<Utente> getUserByUsername(@PathVariable("email") String email) {
+        Utente user = utenteService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/search/{filter}/{campo}")
+    public ResponseEntity<List<String>> getCustomerByParam(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
+        List<String> filteredField = utenteService.getColumn(campo, filter);
+        return ResponseEntity.ok(filteredField);
+    }
+
+
 }

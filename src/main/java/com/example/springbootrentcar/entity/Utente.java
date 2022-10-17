@@ -35,7 +35,7 @@ public class Utente implements Serializable {
     @Column(name = "telefono")
     private String telefono;
 
-    @Column(name = "dataNascita")
+    @Column(name = "data_nascita")
     private LocalDate dataNascita;
 
     @Column(name = "customer")
