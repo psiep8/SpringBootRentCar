@@ -11,7 +11,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 @RequiredArgsConstructor
-@Component
 public class FieldSpecifications implements Specification<Utente> {
     private final String campo, filter;
 

@@ -59,8 +59,7 @@ public class UtenteServiceImpl implements UtenteService {
     @Override
     public List<Utente> getColumn(String campo, String filter) {
         FieldSpecifications fs = new FieldSpecifications(campo, filter);
-        Specification<Utente> specification = Specification.where(fs);
-        return utenteRepository.findAll(specification);
+        return utenteRepository.findAll(fs);
     }
 
 }

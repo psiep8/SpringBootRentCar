@@ -63,7 +63,7 @@ public class UtenteController {
     }
 
     @GetMapping("/filter/{filter}/{campo}")
-    public ResponseEntity<List<Utente>> getUserFiltered(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
+    public ResponseEntity<List<Utente>> getColumn(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
         List<Utente> filteredField = utenteService.getColumn(campo, filter);
         return ResponseEntity.ok(filteredField);
 

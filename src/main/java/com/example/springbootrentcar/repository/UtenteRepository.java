@@ -13,7 +13,7 @@ public interface UtenteRepository extends JpaRepository<Utente, Integer>, JpaSpe
 
     Utente getUserByEmail(String email);
 
-    List<Utente> getColumn(String campo, String filter);
+    // List<Utente> getColumn(String campo, String filter);
 
 
 }
