@@ -2,6 +2,7 @@ package com.example.springbootrentcar.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UtenteDTO {
 
     private int id;

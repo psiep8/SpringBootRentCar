@@ -31,12 +31,12 @@ public class Prenotazione implements Serializable {
     private boolean approvata;
 
     @ManyToOne
-    @JoinColumn(name = "auto", referencedColumnName = "id")
+    @JoinColumn(name = "auto_id", referencedColumnName = "id")
     @JsonBackReference
     private Auto auto;
 
     @ManyToOne
-    @JoinColumn(name = "utente", referencedColumnName = "id")
+    @JoinColumn(name = "utente_id", referencedColumnName = "id")
     @JsonBackReference
     private Utente utente;
 

@@ -11,9 +11,5 @@ import java.util.List;
 
 public interface UtenteRepository extends JpaRepository<Utente, Integer>, JpaSpecificationExecutor<Utente> {
 
-    Utente getUserByEmail(String email);
-
-    // List<Utente> getColumn(String campo, String filter);
-
 
 }

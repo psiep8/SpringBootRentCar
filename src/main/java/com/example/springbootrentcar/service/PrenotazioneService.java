@@ -15,6 +15,6 @@ public interface PrenotazioneService {
 
     List<Prenotazione> getPrenotazioni();
 
-    Optional<Prenotazione> getPrenotazione(int id);
+    Prenotazione getPrenotazione(int id);
 
 }

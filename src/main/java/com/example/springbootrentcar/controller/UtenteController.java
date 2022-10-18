@@ -2,16 +2,14 @@ package com.example.springbootrentcar.controller;
 
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.service.UtenteService;
-import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/utente")
 @RequiredArgsConstructor
 public class UtenteController {
     private final UtenteService utenteService;
@@ -56,17 +54,15 @@ public class UtenteController {
         utenteService.approvaPrenotazione(approvata, id);
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<Utente> getUserByUsername(@PathVariable("email") String email) {
-        Utente user = utenteService.getUserByEmail(email);
-        return ResponseEntity.ok(user);
+    @GetMapping("/user/{email}")
+    public Utente getUserByEmail(@PathVariable("email") String email) {
+        return utenteService.getUserByEmail(email);
     }
 
-    @GetMapping("/filter/{filter}/{campo}")
+    @GetMapping("/filter/{campo}/{filter}")
     public ResponseEntity<List<Utente>> getColumn(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
         List<Utente> filteredField = utenteService.getColumn(campo, filter);
         return ResponseEntity.ok(filteredField);
-
     }
 
 

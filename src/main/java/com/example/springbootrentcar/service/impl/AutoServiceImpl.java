@@ -1,8 +1,13 @@
 package com.example.springbootrentcar.service.impl;
 
 import com.example.springbootrentcar.entity.Auto;
+import com.example.springbootrentcar.entity.Prenotazione;
+import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.repository.AutoRepository;
 import com.example.springbootrentcar.service.AutoService;
+//import com.example.springbootrentcar.specifications.DateSpecifications;
+import com.example.springbootrentcar.specifications.DateSpecifications;
+import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +40,13 @@ public class AutoServiceImpl implements AutoService {
     }
 
     @Override
-    public Optional<Auto> getAuto(int id) {
-        return autoRepository.findById(id);
+    public Auto getAuto(int id) {
+        return autoRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id)));
     }
 
-   /* @Override
+    @Override
     public List<Auto> getDataRange(LocalDate inizio, LocalDate fine) {
-        return autoRepository.getDataRange(inizio, fine);
-    }*/
+        DateSpecifications ds = new DateSpecifications(inizio, fine);
+        return autoRepository.findAll(ds);
+    }
 }

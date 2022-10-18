@@ -2,6 +2,7 @@ package com.example.springbootrentcar.service.impl;
 
 import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Prenotazione;
+import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.service.PrenotazioneService;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,8 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     }
 
     @Override
-    public Optional<Prenotazione> getPrenotazione(int id) {
-        return prenotazioneRepository.findById(id);
+    public Prenotazione getPrenotazione(int id) {
+        return prenotazioneRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id)));
     }
 
 }

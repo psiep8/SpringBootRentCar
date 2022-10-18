@@ -14,8 +14,8 @@ public interface AutoService {
 
     List<Auto> getAutoList();
 
-    Optional<Auto> getAuto(int id);
+    Auto getAuto(int id);
 
-  //  List<Auto> getDataRange(LocalDate inizio, LocalDate fine);
+    List<Auto> getDataRange(LocalDate inizio, LocalDate fine);
 
 }

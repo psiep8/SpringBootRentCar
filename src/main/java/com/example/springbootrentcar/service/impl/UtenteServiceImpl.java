@@ -6,6 +6,7 @@ import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.repository.UtenteRepository;
 import com.example.springbootrentcar.service.UtenteService;
+import com.example.springbootrentcar.specifications.EmailSpecifications;
 import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -46,13 +47,13 @@ public class UtenteServiceImpl implements UtenteService {
 
     @Override
     public Utente getUserByEmail(String email) {
-        return utenteRepository.getUserByEmail(email);
+        return utenteRepository.findOne(new EmailSpecifications(email)).orElseThrow();
     }
 
     @Override
     public void approvaPrenotazione(String string, int id) {
-        Prenotazione prenotazione = prenotazioneRepository.getReferenceById(id);
-        prenotazione.setApprovata(string.equals("Si"));
+        Prenotazione prenotazione = prenotazioneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id));
+        prenotazione.setApprovata(string.equalsIgnoreCase("Si"));
         prenotazioneRepository.save(prenotazione);
     }
 
