@@ -47,7 +47,7 @@ public class AutoController {
         return ResponseEntity.ok(a);
     }
 
-    @PostMapping("/filterDate/")
+    @PostMapping("/filterDate")
     public ResponseEntity<List<Auto>> getFreeVehicle(@RequestParam("inizio") String inizio, @RequestParam("fine") String fine) {
         //List<Auto> autoDisponibili = autoService.getDataRange(inizio, fine);
         //return ResponseEntity.ok(autoDisponibili);
