@@ -50,7 +50,7 @@ public class AutoController {
     }
 
     @PostMapping("/filterDate")
-    public ResponseEntity<List<AutoDTO>> getFreeVehicle(@RequestParam("inizio") String inizio, @RequestParam("fine") String fine) {
+    public ResponseEntity<List<AutoDTO>> getDataRange(@RequestParam("inizio") String inizio, @RequestParam("fine") String fine) {
         List<AutoDTO> autoDisponibili = autoService.getDataRange(LocalDate.parse(inizio), LocalDate.parse(fine));
         return ResponseEntity.ok(autoDisponibili);
     }

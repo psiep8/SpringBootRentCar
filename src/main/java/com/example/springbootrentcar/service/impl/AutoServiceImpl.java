@@ -2,17 +2,21 @@ package com.example.springbootrentcar.service.impl;
 
 import com.example.springbootrentcar.dto.AutoDTO;
 import com.example.springbootrentcar.entity.Auto;
+import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.mapper.AutoMapper;
 import com.example.springbootrentcar.repository.AutoRepository;
+import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.service.AutoService;
 //import com.example.springbootrentcar.specifications.DateSpecifications;
 import com.example.springbootrentcar.specifications.DateSpecifications;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +25,7 @@ import java.util.List;
 public class AutoServiceImpl implements AutoService {
     private final AutoRepository autoRepository;
 
+    private final PrenotazioneRepository prenotazioneRepository;
     private final AutoMapper mapper;
 
     @Transactional
@@ -48,7 +53,17 @@ public class AutoServiceImpl implements AutoService {
 
     @Override
     public List<AutoDTO> getDataRange(LocalDate inizio, LocalDate fine) {
-        DateSpecifications ds = new DateSpecifications(inizio, fine);
-        return mapper.getAllAutoDTO(autoRepository.findAll(ds));
+        List<Prenotazione> listPrenotazioniInRange = prenotazioneRepository.findAll(DateSpecifications.getRangeData(inizio, fine));
+        List<Integer> autoList = new ArrayList<>();
+        if (listPrenotazioniInRange.isEmpty()) {
+            return getAutoList();
+        } else {
+            for (Prenotazione p : listPrenotazioniInRange) {
+                int id = p.getAuto().getIdAuto();
+                autoList.add(id);
+            }
+            List<Auto> list = autoRepository.findAll(DateSpecifications.getAutoNotInRange(autoList));
+            return mapper.getAllAutoDTO(list);
+        }
     }
 }

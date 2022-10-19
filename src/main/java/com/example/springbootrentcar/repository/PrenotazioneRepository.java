@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Integer> {
+public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Integer>, JpaSpecificationExecutor<Prenotazione> {
 
 }
