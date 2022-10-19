@@ -1,23 +1,24 @@
 package com.example.springbootrentcar.service;
 
+import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Utente;
 
 import java.util.List;
 
 
 public interface UtenteService {
-    void updateUtente(Utente utente);
+    void updateUtente(UtenteDTO utente);
 
-    void deleteUtente(Utente utente);
+    void deleteUtente(UtenteDTO utente);
 
-    List<Utente> getUtenti();
+    List<UtenteDTO> getUtenti();
 
-    Utente getUser(int id);
+    UtenteDTO getUser(int id);
 
-    Utente getUserByEmail(String email);
+    UtenteDTO getUserByEmail(String email);
 
     void approvaPrenotazione(String string, int id);
 
-    List<Utente> getColumn(String campo, String filter);
+    List<UtenteDTO> getColumn(String campo, String filter);
 
 }

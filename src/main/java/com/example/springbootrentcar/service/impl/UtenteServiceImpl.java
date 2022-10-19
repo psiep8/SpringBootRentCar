@@ -1,15 +1,16 @@
 package com.example.springbootrentcar.service.impl;
 
+import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.exception.ResourceNotFoundException;
+import com.example.springbootrentcar.mapper.UtenteMapper;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.repository.UtenteRepository;
 import com.example.springbootrentcar.service.UtenteService;
 import com.example.springbootrentcar.specifications.EmailSpecifications;
 import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,32 +23,35 @@ public class UtenteServiceImpl implements UtenteService {
 
     private final UtenteRepository utenteRepository;
     private final PrenotazioneRepository prenotazioneRepository;
+    private final UtenteMapper mapper;
+
 
     @Override
     @Transactional
-    public void updateUtente(Utente utente) {
-        utenteRepository.save(utente);
+    public void updateUtente(UtenteDTO utenteDTO) {
+        utenteRepository.save(mapper.fromDTOtoEntity(utenteDTO));
     }
 
     @Override
     @Transactional
-    public void deleteUtente(Utente utente) {
-        utenteRepository.delete(utente);
+    public void deleteUtente(UtenteDTO utenteDTO) {
+        utenteRepository.delete(mapper.fromDTOtoEntity(utenteDTO));
     }
 
     @Override
-    public List<Utente> getUtenti() {
-        return utenteRepository.findAll();
+    public List<UtenteDTO> getUtenti() {
+        List<Utente> utenti = utenteRepository.findAll();
+        return mapper.getAllUtentiDTO(utenti);
     }
 
     @Override
-    public Utente getUser(int id) {
-        return utenteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + id));
+    public UtenteDTO getUser(int id) {
+        return mapper.fromEntityToDTO(utenteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + id)));
     }
 
     @Override
-    public Utente getUserByEmail(String email) {
-        return utenteRepository.findOne(new EmailSpecifications(email)).orElseThrow();
+    public UtenteDTO getUserByEmail(String email) {
+        return mapper.fromEntityToDTO(utenteRepository.findOne(new EmailSpecifications(email)).orElseThrow());
     }
 
     @Override
@@ -58,9 +62,9 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     @Override
-    public List<Utente> getColumn(String campo, String filter) {
+    public List<UtenteDTO> getColumn(String campo, String filter) {
         FieldSpecifications fs = new FieldSpecifications(campo, filter);
-        return utenteRepository.findAll(fs);
+        return mapper.getAllUtentiDTO(utenteRepository.findAll(fs));
     }
 
 }

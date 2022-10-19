@@ -1,5 +1,6 @@
 package com.example.springbootrentcar.controller;
 
+import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.service.UtenteService;
 import lombok.RequiredArgsConstructor;
@@ -15,36 +16,36 @@ public class UtenteController {
     private final UtenteService utenteService;
 
     @GetMapping("")
-    public List<Utente> listUtenti() {
+    public List<UtenteDTO> listUtenti() {
         return utenteService.getUtenti();
     }
 
     @PostMapping("/save")
-    public void saveUtente(@RequestBody Utente utente) {
-        utenteService.updateUtente(utente);
+    public void saveUtente(@RequestBody UtenteDTO utenteDTO) {
+        utenteService.updateUtente(utenteDTO);
     }
 
     @GetMapping("/{id}")
-    public Utente getUtenteById(@PathVariable int id) {
+    public UtenteDTO getUtenteById(@PathVariable int id) {
         return utenteService.getUser(id);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Utente> updateUtente(@PathVariable int id, @RequestBody Utente utente) {
-        Utente u = utenteService.getUser(id);
-        u.setNome(utente.getNome());
-        u.setCognome(utente.getCognome());
-        u.setPassword(utente.getPassword());
-        u.setEmail(utente.getEmail());
-        u.setTelefono(utente.getTelefono());
-        u.setDataNascita(utente.getDataNascita());
+    public ResponseEntity<UtenteDTO> updateUtente(@PathVariable int id, @RequestBody UtenteDTO utenteDTO) {
+        UtenteDTO u = utenteService.getUser(id);
+        u.setNome(utenteDTO.getNome());
+        u.setCognome(utenteDTO.getCognome());
+        u.setPassword(utenteDTO.getPassword());
+        u.setEmail(utenteDTO.getEmail());
+        u.setTelefono(utenteDTO.getTelefono());
+        u.setDataNascita(utenteDTO.getDataNascita());
         utenteService.updateUtente(u);
         return ResponseEntity.ok(u);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Utente> deleteUtente(@PathVariable int id) {
-        Utente u = utenteService.getUser(id);
+    public ResponseEntity<UtenteDTO> deleteUtente(@PathVariable int id) {
+        UtenteDTO u = utenteService.getUser(id);
         utenteService.deleteUtente(u);
         return ResponseEntity.ok(u);
     }
@@ -55,13 +56,13 @@ public class UtenteController {
     }
 
     @GetMapping("/user/{email}")
-    public Utente getUserByEmail(@PathVariable("email") String email) {
+    public UtenteDTO getUserByEmail(@PathVariable("email") String email) {
         return utenteService.getUserByEmail(email);
     }
 
     @GetMapping("/filter/{campo}/{filter}")
-    public ResponseEntity<List<Utente>> getColumn(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
-        List<Utente> filteredField = utenteService.getColumn(campo, filter);
+    public ResponseEntity<List<UtenteDTO>> getColumn(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
+        List<UtenteDTO> filteredField = utenteService.getColumn(campo, filter);
         return ResponseEntity.ok(filteredField);
     }
 

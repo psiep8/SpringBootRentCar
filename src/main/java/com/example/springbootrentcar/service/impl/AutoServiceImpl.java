@@ -1,20 +1,19 @@
 package com.example.springbootrentcar.service.impl;
 
+import com.example.springbootrentcar.dto.AutoDTO;
 import com.example.springbootrentcar.entity.Auto;
-import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.exception.ResourceNotFoundException;
+import com.example.springbootrentcar.mapper.AutoMapper;
 import com.example.springbootrentcar.repository.AutoRepository;
 import com.example.springbootrentcar.service.AutoService;
 //import com.example.springbootrentcar.specifications.DateSpecifications;
 import com.example.springbootrentcar.specifications.DateSpecifications;
-import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,31 +21,34 @@ import java.util.Optional;
 public class AutoServiceImpl implements AutoService {
     private final AutoRepository autoRepository;
 
-    @Transactional
-    @Override
-    public void updateAuto(Auto auto) {
-        autoRepository.save(auto);
-    }
+    private final AutoMapper mapper;
 
     @Transactional
     @Override
-    public void deleteAuto(Auto auto) {
-        autoRepository.delete(auto);
+    public void updateAuto(AutoDTO autoDTO) {
+        autoRepository.save(mapper.fromDTOtoEntity(autoDTO));
+    }
+
+    @Transactional
+    @Override
+    public void deleteAuto(AutoDTO autoDTO) {
+        autoRepository.delete(mapper.fromDTOtoEntity(autoDTO));
     }
 
     @Override
-    public List<Auto> getAutoList() {
-        return autoRepository.findAll();
+    public List<AutoDTO> getAutoList() {
+        List<Auto> autos = autoRepository.findAll();
+        return mapper.getAllAutoDTO(autos);
     }
 
     @Override
-    public Auto getAuto(int id) {
-        return autoRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id)));
+    public AutoDTO getAuto(int id) {
+        return mapper.fromEntityToDTO(autoRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id))));
     }
 
     @Override
-    public List<Auto> getDataRange(LocalDate inizio, LocalDate fine) {
+    public List<AutoDTO> getDataRange(LocalDate inizio, LocalDate fine) {
         DateSpecifications ds = new DateSpecifications(inizio, fine);
-        return autoRepository.findAll(ds);
+        return mapper.getAllAutoDTO(autoRepository.findAll(ds));
     }
 }

@@ -1,31 +1,26 @@
 package com.example.springbootrentcar.mapper;
 
-import com.example.springbootrentcar.repository.UtenteRepository;
-import org.springframework.stereotype.Component;
+import com.example.springbootrentcar.entity.Prenotazione;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Component
+@RequiredArgsConstructor
 public class PrenotazioneMapper {
-/*
-    private static UtenteRepository u = new UtenteDAOImpl();
-    private static AutoDAO a = new AutoDAOImpl();
+    private final ModelMapper mapper;
 
-    public PrenotazioneMapper(UtenteDAO u, AutoDAO a) {
-        this.u = u;
-        this.a = a;
+    public List<com.example.springbootrentcar.dto.PrenotazioneDTO> getAllPrenotazioniDTO(List<Prenotazione> prenotazioni) {
+        return prenotazioni.stream().map(prenotazione -> mapper.map(prenotazione, com.example.springbootrentcar.dto.PrenotazioneDTO.class)).collect(Collectors.toList());
     }
 
-    public static Prenotazione fromDTOtoEntity(PrenotazioneDTO prenotazioneDTO) {
-        Utente utente = u.getUser(prenotazioneDTO.getIdUtente());
-        Auto auto = a.getAuto(prenotazioneDTO.getIdAuto());
-        return new Prenotazione(
-                prenotazioneDTO.getId(),
-                LocalDate.parse(prenotazioneDTO.getDataInizio()),
-                LocalDate.parse(prenotazioneDTO.getDataFine()),
-                prenotazioneDTO.isApprovata(),
-                utente,
-                auto);
+    public Prenotazione fromDTOtoEntity(com.example.springbootrentcar.dto.PrenotazioneDTO prenotazioneDTO) {
+        return mapper.map(prenotazioneDTO, Prenotazione.class);
     }
-*/
+
+    public com.example.springbootrentcar.dto.PrenotazioneDTO fromEntityToDTO(Prenotazione prenotazione) {
+        return mapper.map(prenotazione, com.example.springbootrentcar.dto.PrenotazioneDTO.class);
+    }
+
 }

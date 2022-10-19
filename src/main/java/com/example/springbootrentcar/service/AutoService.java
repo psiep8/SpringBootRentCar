@@ -1,5 +1,6 @@
 package com.example.springbootrentcar.service;
 
+import com.example.springbootrentcar.dto.AutoDTO;
 import com.example.springbootrentcar.entity.Auto;
 import org.springframework.stereotype.Service;
 
@@ -8,14 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AutoService {
-    void updateAuto(Auto auto);
+    void updateAuto(AutoDTO autoDTO);
 
-    void deleteAuto(Auto auto);
+    void deleteAuto(AutoDTO autoDTO);
 
-    List<Auto> getAutoList();
+    List<AutoDTO> getAutoList();
 
-    Auto getAuto(int id);
+    AutoDTO getAuto(int id);
 
-    List<Auto> getDataRange(LocalDate inizio, LocalDate fine);
+    List<AutoDTO> getDataRange(LocalDate inizio, LocalDate fine);
 
 }

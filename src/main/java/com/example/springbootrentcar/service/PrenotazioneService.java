@@ -1,20 +1,17 @@
 package com.example.springbootrentcar.service;
 
-import com.example.springbootrentcar.entity.Auto;
+import com.example.springbootrentcar.dto.PrenotazioneDTO;
 import com.example.springbootrentcar.entity.Prenotazione;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface PrenotazioneService {
-    void updatePrenotazione(Prenotazione prenotazione);
+    void updatePrenotazione(PrenotazioneDTO prenotazioneDTO);
 
-    void deletePrenotazione(Prenotazione prenotazione);
+    void deletePrenotazione(PrenotazioneDTO prenotazioneDTO);
 
-    List<Prenotazione> getPrenotazioni();
+    List<PrenotazioneDTO> getPrenotazioni();
 
-    Prenotazione getPrenotazione(int id);
+    PrenotazioneDTO getPrenotazione(int id);
 
 }
