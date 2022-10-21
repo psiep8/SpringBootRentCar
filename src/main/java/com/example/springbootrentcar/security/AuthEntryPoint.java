@@ -28,7 +28,7 @@ public class AuthEntryPoint extends BasicAuthenticationEntryPoint {
         response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName() + "");
 
         PrintWriter writer = response.getWriter();
-        writer.println("errore non autorizzato");
+        writer.println("Errore: Email o Password errata/i");
     }
 
     @Override

@@ -55,11 +55,6 @@ public class UtenteController {
         utenteService.approvaPrenotazione(approvata, id);
     }
 
-    /*@GetMapping("/{email}")
-    public UtenteDTO getUserByEmail(@PathVariable("email") String email) {
-        return utenteService.getUserByEmail(email);
-    }*/
-
     @GetMapping("/filter/{campo}/{filter}")
     public ResponseEntity<List<UtenteDTO>> getColumn(@PathVariable("campo") String campo, @PathVariable("filter") String filter) {
         List<UtenteDTO> filteredField = utenteService.getColumn(campo, filter);

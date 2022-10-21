@@ -1,12 +1,15 @@
 package com.example.springbootrentcar.security;
 
+import com.example.springbootrentcar.security.jwt.JWTAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -26,8 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static String REALM = "REAME";
     private static final String[] USER_MATCHER = {"/api/prenotazione/**"};
     private static final String[] ADMIN_MATCHER = {"/api/utente/**"};
-
-    //matcher auto
+    private static final String[] AUTO_MATCHER = {"/api/auto/**"};
 
     @Autowired
     private final UserDetailsService customUserDetailsService;
@@ -66,13 +68,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/").hasAnyRole("USER", "ANONYMOUS")
-                .antMatchers(ADMIN_MATCHER).hasRole("ADMIN")
-                .antMatchers(USER_MATCHER).hasRole("USER")
+                .antMatchers("/api/auto").permitAll()
+                .antMatchers(USER_MATCHER).hasAnyAuthority("ROLE_USER")
+                .antMatchers(ADMIN_MATCHER).hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(AUTO_MATCHER).hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
-                .and()
-                .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint());
+        http.addFilter(authenticationFilter)
+                .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginProcessingUrl("/login") //url autenticazione utente
                 .failureUrl("/login/form?error")
@@ -89,11 +93,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
     public AuthenticationFilter authenticationFilter() throws Exception {
         AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
         filter.setAuthenticationManager(authenticationManagerBean());
         filter.setAuthenticationFailureHandler(failureHandler());
-        filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler());
         return filter;
     }
 

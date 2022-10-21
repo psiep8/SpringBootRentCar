@@ -6,6 +6,7 @@ import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.security.jwt.AuthenticationConfigConstants;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,25 +23,16 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @RequiredArgsConstructor
+@Log
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        if (!request.getMethod().equals("POST"))
-            throw new AuthenticationServiceException("Metodo di autenticazione non supportato");
-        UsernamePasswordAuthenticationToken authRequest = getAuthRequest(request);
-        setDetails(request, authRequest);
-        return this.getAuthenticationManager().authenticate(authRequest);
-    }
-
-
-    private UsernamePasswordAuthenticationToken getAuthRequest(HttpServletRequest request) {
         String email = request.getParameter("email");
-        String password = obtainPassword(request);
-        email = (email == null) ? "" : email;
-        password = (password == null) ? "" : password;
-        return new UsernamePasswordAuthenticationToken(email, password);
+        String password = request.getParameter("password");
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+        return authenticationManager.authenticate(authenticationToken);
     }
 
     @Override
