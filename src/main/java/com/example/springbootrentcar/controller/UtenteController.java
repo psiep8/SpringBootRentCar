@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/utente")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class UtenteController {
     private final UtenteService utenteService;
 
