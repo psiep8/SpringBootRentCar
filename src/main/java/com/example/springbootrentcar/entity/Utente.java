@@ -1,6 +1,7 @@
 package com.example.springbootrentcar.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Utente implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -44,5 +47,6 @@ public class Utente implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "utente", orphanRemoval = true)
     @JsonManagedReference
     private List<Prenotazione> prenotazioniFromUtenteItems;
+
 
 }

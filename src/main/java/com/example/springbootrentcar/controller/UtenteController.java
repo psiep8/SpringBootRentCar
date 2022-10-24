@@ -23,6 +23,7 @@ public class UtenteController {
 
     @PostMapping("/save")
     public void saveUtente(@RequestBody UtenteDTO utenteDTO) {
+        utenteDTO.setCustomer(true);
         utenteService.updateUtente(utenteDTO);
     }
 
@@ -33,15 +34,8 @@ public class UtenteController {
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<UtenteDTO> updateUtente(@PathVariable int id, @RequestBody UtenteDTO utenteDTO) {
-        UtenteDTO u = utenteService.getUser(id);
-        u.setNome(utenteDTO.getNome());
-        u.setCognome(utenteDTO.getCognome());
-        u.setPassword(utenteDTO.getPassword());
-        u.setEmail(utenteDTO.getEmail());
-        u.setTelefono(utenteDTO.getTelefono());
-        u.setDataNascita(utenteDTO.getDataNascita());
-        utenteService.updateUtente(u);
-        return ResponseEntity.ok(u);
+        utenteService.updateUtente(utenteDTO);
+        return ResponseEntity.ok(utenteDTO);
     }
 
     @DeleteMapping("/delete/{id}")
