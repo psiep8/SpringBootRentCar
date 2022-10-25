@@ -45,8 +45,8 @@ public class Utente implements Serializable {
     private boolean customer;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "utente", orphanRemoval = true)
-    @JsonManagedReference
     private List<Prenotazione> prenotazioniFromUtenteItems;
+
 
 
 }

@@ -29,7 +29,6 @@ public class Auto implements Serializable {
     private String modello;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "auto", orphanRemoval = true)
-    @JsonManagedReference
     private List<Prenotazione> prenotazioniFromAutoItems;
 
 }

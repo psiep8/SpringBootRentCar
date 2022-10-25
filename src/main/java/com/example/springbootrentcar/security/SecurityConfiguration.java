@@ -28,8 +28,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static String REALM = "REAME";
     private static final String[] USER_MATCHER = {"/api/prenotazione/**"};
-    private static final String[] ADMIN_MATCHER = {"/api/utente/**"};
+    private static final String[] ADMIN_MATCHER = {"/api/utente/**", "/api/utente"};
     private static final String[] AUTO_MATCHER = {"/api/auto/**"};
+
 
     @Autowired
     private final UserDetailsService customUserDetailsService;
@@ -66,9 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers("/resources/**").permitAll()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/").hasAnyRole("USER", "ANONYMOUS")
+                .antMatchers("/login").permitAll()
                 .antMatchers("/api/auto").permitAll()
                 .antMatchers(USER_MATCHER).hasAnyAuthority("ROLE_USER")
                 .antMatchers(ADMIN_MATCHER).hasAnyAuthority("ROLE_ADMIN")
@@ -77,15 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint());
         http.addFilter(authenticationFilter)
-                .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                .loginProcessingUrl("/login") //url autenticazione utente
-                .failureUrl("/login/form?error")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/login/form?forbidden");
+                .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -103,18 +94,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationFilter authenticationFilter() throws Exception {
         AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
         filter.setAuthenticationManager(authenticationManagerBean());
-        filter.setAuthenticationFailureHandler(failureHandler());
         return filter;
     }
 
-    @Bean
-    public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
-        return new SuccessHandler();
-    }
-
-
-    @Bean
-    public SimpleUrlAuthenticationFailureHandler failureHandler() {
-        return new SimpleUrlAuthenticationFailureHandler("/login/form?error");
-    }
 }

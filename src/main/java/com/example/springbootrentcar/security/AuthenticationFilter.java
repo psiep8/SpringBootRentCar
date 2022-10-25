@@ -42,11 +42,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .withClaim("role", auth.getAuthorities().iterator().next().getAuthority())
                 .withExpiresAt(new Date(System.currentTimeMillis() + AuthenticationConfigConstants.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC256(AuthenticationConfigConstants.SECRET.getBytes()));
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(
-                "{\"" + ((User) auth.getPrincipal()).getUsername() + " " + AuthenticationConfigConstants.HEADER_STRING + "\":\"" + token + "\"}"
+                "{\"token\":\"" + token + "\"}"
         );
         response.addHeader(AuthenticationConfigConstants.HEADER_STRING, token);
     }

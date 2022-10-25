@@ -24,7 +24,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AutoServiceImpl implements AutoService {
     private final AutoRepository autoRepository;
-
     private final PrenotazioneRepository prenotazioneRepository;
     private final AutoMapper mapper;
 

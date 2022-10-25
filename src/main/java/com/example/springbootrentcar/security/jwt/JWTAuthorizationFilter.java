@@ -46,7 +46,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                 } catch (Exception e) {
                     log.warning("Error logging in: {}");
-                    response.setHeader("Errore", e.getMessage());
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 }
             }

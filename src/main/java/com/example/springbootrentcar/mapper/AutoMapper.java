@@ -6,23 +6,31 @@ import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Utente;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-@RequiredArgsConstructor
+@Component
 public class AutoMapper {
-    private final ModelMapper mapper;
 
     public List<AutoDTO> getAllAutoDTO(List<Auto> autos) {
-        return autos.stream().map(auto -> mapper.map(auto, AutoDTO.class)).collect(Collectors.toList());
+        return autos.stream().map(this::fromEntityToDTO).collect(Collectors.toList());
     }
 
     public Auto fromDTOtoEntity(AutoDTO autoDTO) {
-        return mapper.map(autoDTO, Auto.class);
+        Auto auto = new Auto();
+        auto.setMarca(autoDTO.getMarca());
+        auto.setModello(autoDTO.getModello());
+        auto.setCilindrata(autoDTO.getCilindrata());
+        return auto;
     }
 
     public AutoDTO fromEntityToDTO(Auto auto) {
-        return mapper.map(auto, AutoDTO.class);
+        AutoDTO autoDTO = new AutoDTO();
+        autoDTO.setMarca(auto.getMarca());
+        autoDTO.setModello(auto.getModello());
+        autoDTO.setCilindrata(auto.getCilindrata());
+        return autoDTO;
     }
 }

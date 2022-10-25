@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
@@ -31,6 +32,4 @@ public class UtenteDTO {
     private String dataNascita;
 
     private boolean customer;
-
-
 }

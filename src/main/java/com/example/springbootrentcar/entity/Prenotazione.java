@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class Prenotazione implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,12 +30,10 @@ public class Prenotazione implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "auto_id", referencedColumnName = "id")
-    @JsonBackReference
     private Auto auto;
 
     @ManyToOne
     @JoinColumn(name = "utente_id", referencedColumnName = "id")
-    @JsonBackReference
     private Utente utente;
 
 }

@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PrenotazioneServiceImpl implements PrenotazioneService {
     private final PrenotazioneRepository prenotazioneRepository;
-    private final ModelMapper modelMapper;
     private final PrenotazioneMapper prenotazioneMapper;
 
     @Transactional
@@ -39,7 +38,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     @Override
     public List<PrenotazioneDTO> getPrenotazioni() {
         List<Prenotazione> prenotazioni = prenotazioneRepository.findAll();
-        return prenotazioni.stream().map(prenotazione -> modelMapper.map(prenotazione, PrenotazioneDTO.class)).collect(Collectors.toList());
+        return prenotazioneMapper.getAllPrenotazioniDTO(prenotazioni);
     }
 
     @Override

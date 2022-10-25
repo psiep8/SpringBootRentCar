@@ -1,9 +1,13 @@
 package com.example.springbootrentcar.controller;
 
+import com.example.springbootrentcar.dto.AutoDTO;
 import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Utente;
+import com.example.springbootrentcar.mapper.UtenteMapper;
 import com.example.springbootrentcar.service.UtenteService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/utente")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200")
 public class UtenteController {
     private final UtenteService utenteService;
 
@@ -32,10 +36,11 @@ public class UtenteController {
         return utenteService.getUser(id);
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<UtenteDTO> updateUtente(@PathVariable int id, @RequestBody UtenteDTO utenteDTO) {
+    @PutMapping("/edit")
+    public ResponseEntity<UtenteDTO> updateUtente(@RequestBody UtenteDTO utenteDTO) {
         utenteService.updateUtente(utenteDTO);
         return ResponseEntity.ok(utenteDTO);
+
     }
 
     @DeleteMapping("/delete/{id}")
