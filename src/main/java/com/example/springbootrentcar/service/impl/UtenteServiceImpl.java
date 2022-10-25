@@ -16,7 +16,10 @@ import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
+
+import static com.example.springbootrentcar.mapper.UtenteMapper.SettersDTOtoEntity;
 
 @Service
 @Transactional
@@ -29,7 +32,13 @@ public class UtenteServiceImpl implements UtenteService {
     @Override
     @Transactional
     public void updateUtente(UtenteDTO utenteDTO) {
-        utenteRepository.save(utenteMapper.fromDTOtoEntity(utenteDTO));
+        if (utenteDTO.getId() != 0) {
+            Utente utente = utenteRepository.findById(utenteDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + utenteDTO.getId()));
+            SettersDTOtoEntity(utenteDTO, utente);
+            utenteRepository.save(utente);
+        } else {
+            utenteRepository.save(utenteMapper.fromDTOtoEntity(utenteDTO));
+        }
     }
 
     @Override

@@ -3,6 +3,9 @@ package com.example.springbootrentcar.mapper;
 
 import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Utente;
+import com.example.springbootrentcar.repository.UtenteRepository;
+import com.example.springbootrentcar.service.UtenteService;
+import com.example.springbootrentcar.service.impl.UtenteServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.*;
@@ -25,6 +28,11 @@ public class UtenteMapper {
 
     public Utente fromDTOtoEntity(UtenteDTO utenteDTO) {
         Utente utente = new Utente();
+        SettersDTOtoEntity(utenteDTO, utente);
+        return utente;
+    }
+
+    public static void SettersDTOtoEntity(UtenteDTO utenteDTO, Utente utente) {
         utente.setNome(utenteDTO.getNome());
         utente.setCognome(utenteDTO.getCognome());
         utente.setPassword(utenteDTO.getPassword());
@@ -32,7 +40,6 @@ public class UtenteMapper {
         utente.setTelefono(utenteDTO.getTelefono());
         utente.setDataNascita(LocalDate.parse(utenteDTO.getDataNascita()));
         utente.setCustomer(utenteDTO.isCustomer());
-        return utente;
     }
 
     public UtenteDTO fromEntityToDTO(Utente utente) {
