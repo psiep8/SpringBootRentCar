@@ -3,16 +3,9 @@ package com.example.springbootrentcar.mapper;
 
 import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Utente;
-import com.example.springbootrentcar.repository.UtenteRepository;
-import com.example.springbootrentcar.service.UtenteService;
-import com.example.springbootrentcar.service.impl.UtenteServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
-import org.modelmapper.*;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
-import javax.xml.transform.Source;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -28,11 +21,11 @@ public class UtenteMapper {
 
     public Utente fromDTOtoEntity(UtenteDTO utenteDTO) {
         Utente utente = new Utente();
-        SettersDTOtoEntity(utenteDTO, utente);
+        settersDTOtoEntity(utenteDTO, utente);
         return utente;
     }
 
-    public static void SettersDTOtoEntity(UtenteDTO utenteDTO, Utente utente) {
+    public static void settersDTOtoEntity(UtenteDTO utenteDTO, Utente utente) {
         utente.setNome(utenteDTO.getNome());
         utente.setCognome(utenteDTO.getCognome());
         utente.setPassword(utenteDTO.getPassword());

@@ -3,6 +3,7 @@ package com.example.springbootrentcar.service.impl;
 import com.example.springbootrentcar.dto.AutoDTO;
 import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Prenotazione;
+import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.mapper.AutoMapper;
 import com.example.springbootrentcar.repository.AutoRepository;
@@ -19,6 +20,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.springbootrentcar.mapper.UtenteMapper.settersDTOtoEntity;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,7 +33,15 @@ public class AutoServiceImpl implements AutoService {
     @Transactional
     @Override
     public void updateAuto(AutoDTO autoDTO) {
-        autoRepository.save(mapper.fromDTOtoEntity(autoDTO));
+        if (autoDTO.getId() != 0) {
+            Auto auto = autoRepository.findById(autoDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + autoDTO.getId()));
+            auto.setMarca(autoDTO.getMarca());
+            auto.setModello(autoDTO.getModello());
+            auto.setCilindrata(autoDTO.getCilindrata());
+            autoRepository.save(auto);
+        } else {
+            autoRepository.save(mapper.fromDTOtoEntity(autoDTO));
+        }
     }
 
     @Transactional

@@ -35,6 +35,8 @@ public class PrenotazioneMapper {
 
     public Prenotazione fromDTOtoEntity(com.example.springbootrentcar.dto.PrenotazioneDTO prenotazioneDTO) {
         Prenotazione prenotazione = new Prenotazione();
+        prenotazione.setAuto(autoMapper.fromDTOtoEntity(prenotazioneDTO.getAuto()));
+        prenotazione.setUtente(utenteMapper.fromDTOtoEntity(prenotazioneDTO.getUtente()));
         prenotazione.setDataInizio(LocalDate.parse(prenotazioneDTO.getDataInizio()));
         prenotazione.setDataFine(LocalDate.parse(prenotazioneDTO.getDataFine()));
         prenotazione.setApprovata(prenotazioneDTO.isApprovata());
@@ -43,6 +45,9 @@ public class PrenotazioneMapper {
 
     public com.example.springbootrentcar.dto.PrenotazioneDTO fromEntityToDTO(Prenotazione prenotazione) {
         PrenotazioneDTO prenotazioneDTO = new PrenotazioneDTO();
+        prenotazioneDTO.setId(prenotazione.getId());
+        prenotazioneDTO.setUtente(utenteMapper.fromEntityToDTO(prenotazione.getUtente()));
+        prenotazioneDTO.setAuto(autoMapper.fromEntityToDTO(prenotazione.getAuto()));
         prenotazioneDTO.setDataInizio(prenotazione.getDataInizio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         prenotazioneDTO.setDataFine(prenotazione.getDataFine().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         prenotazioneDTO.setApprovata(prenotazioneDTO.isApprovata());

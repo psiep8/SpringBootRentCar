@@ -32,4 +32,5 @@ public class UtenteDTO {
     private String dataNascita;
 
     private boolean customer;
+
 }

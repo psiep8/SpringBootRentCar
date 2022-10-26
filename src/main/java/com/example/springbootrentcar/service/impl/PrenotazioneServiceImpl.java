@@ -1,6 +1,7 @@
 package com.example.springbootrentcar.service.impl;
 
 import com.example.springbootrentcar.dto.PrenotazioneDTO;
+import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.exception.ResourceNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,14 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     @Transactional
     @Override
     public void updatePrenotazione(PrenotazioneDTO prenotazioneDTO) {
-        prenotazioneRepository.save(prenotazioneMapper.fromDTOtoEntity(prenotazioneDTO));
+        if (prenotazioneDTO.getId() != 0) {
+            Prenotazione prenotazione = prenotazioneRepository.findById(prenotazioneDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + prenotazioneDTO.getId()));
+            prenotazione.setDataInizio(LocalDate.parse(prenotazioneDTO.getDataInizio()));
+            prenotazione.setDataFine(LocalDate.parse(prenotazioneDTO.getDataFine()));
+            prenotazioneRepository.save(prenotazione);
+        } else {
+            prenotazioneRepository.save(prenotazioneMapper.fromDTOtoEntity(prenotazioneDTO));
+        }
     }
 
     @Transactional

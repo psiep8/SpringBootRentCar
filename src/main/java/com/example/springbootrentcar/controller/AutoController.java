@@ -33,14 +33,10 @@ public class AutoController {
         return autoService.getAuto(id);
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<AutoDTO> updateAuto(@PathVariable int id, @RequestBody AutoDTO autoDTO) {
-        AutoDTO a = autoService.getAuto(id);
-        a.setMarca(autoDTO.getMarca());
-        a.setModello(autoDTO.getModello());
-        a.setCilindrata(autoDTO.getCilindrata());
-        autoService.updateAuto(a);
-        return ResponseEntity.ok(a);
+    @PutMapping("/edit")
+    public ResponseEntity<AutoDTO> updateAuto(@RequestBody AutoDTO autoDTO) {
+        autoService.updateAuto(autoDTO);
+        return ResponseEntity.ok(autoDTO);
     }
 
     @DeleteMapping("/delete/{id}")

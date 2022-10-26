@@ -11,15 +11,12 @@ import com.example.springbootrentcar.service.UtenteService;
 import com.example.springbootrentcar.specifications.EmailSpecifications;
 import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 
-import static com.example.springbootrentcar.mapper.UtenteMapper.SettersDTOtoEntity;
+import static com.example.springbootrentcar.mapper.UtenteMapper.settersDTOtoEntity;
 
 @Service
 @Transactional
@@ -34,7 +31,7 @@ public class UtenteServiceImpl implements UtenteService {
     public void updateUtente(UtenteDTO utenteDTO) {
         if (utenteDTO.getId() != 0) {
             Utente utente = utenteRepository.findById(utenteDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + utenteDTO.getId()));
-            SettersDTOtoEntity(utenteDTO, utente);
+            settersDTOtoEntity(utenteDTO, utente);
             utenteRepository.save(utente);
         } else {
             utenteRepository.save(utenteMapper.fromDTOtoEntity(utenteDTO));
@@ -59,9 +56,10 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     @Override
-    public UtenteDTO getUserByEmail(String email) {
-        return utenteMapper.fromEntityToDTO(utenteRepository.findOne(new EmailSpecifications(email)).orElseThrow());
+    public Utente getUserByEmail(String email) {
+        return utenteRepository.findOne(new EmailSpecifications(email)).orElseThrow();
     }
+
 
     @Override
     public void approvaPrenotazione(String string, int id) {

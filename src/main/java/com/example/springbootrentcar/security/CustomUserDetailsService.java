@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        UtenteDTO utente = utenteService.getUserByEmail(mail);
+        Utente utente = utenteService.getUserByEmail(mail);
         if (utente == null) {
             throw new UsernameNotFoundException("Utente non trovato!");
         }

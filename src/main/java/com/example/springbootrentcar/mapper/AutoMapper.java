@@ -28,6 +28,7 @@ public class AutoMapper {
 
     public AutoDTO fromEntityToDTO(Auto auto) {
         AutoDTO autoDTO = new AutoDTO();
+        autoDTO.setId(auto.getIdAuto());
         autoDTO.setMarca(auto.getMarca());
         autoDTO.setModello(auto.getModello());
         autoDTO.setCilindrata(auto.getCilindrata());
