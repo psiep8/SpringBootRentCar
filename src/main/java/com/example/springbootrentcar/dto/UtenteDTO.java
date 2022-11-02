@@ -23,8 +23,6 @@ public class UtenteDTO {
 
     private String cognome;
 
-    private String password;
-
     private String email;
 
     private String telefono;

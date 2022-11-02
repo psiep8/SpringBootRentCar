@@ -9,7 +9,7 @@ import java.util.List;
 public interface UtenteService {
     void updateUtente(UtenteDTO utente);
 
-    void deleteUtente(UtenteDTO utente);
+    void deleteUtente(int id);
 
     List<UtenteDTO> getUtenti();
 

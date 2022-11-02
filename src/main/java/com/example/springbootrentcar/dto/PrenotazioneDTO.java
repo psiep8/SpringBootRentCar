@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 
 public class PrenotazioneDTO {
     private int id;
-    private UtenteDTO utente;
-    private AutoDTO auto;
     private String dataInizio;
     private String dataFine;
     private boolean approvata;

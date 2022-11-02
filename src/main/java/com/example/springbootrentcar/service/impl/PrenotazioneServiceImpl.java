@@ -40,8 +40,9 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
     @Transactional
     @Override
-    public void deletePrenotazione(PrenotazioneDTO prenotazioneDTO) {
-        prenotazioneRepository.delete(prenotazioneMapper.fromDTOtoEntity(prenotazioneDTO));
+    public void deletePrenotazione(int id) {
+        Prenotazione prenotazione = prenotazioneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + id));
+        prenotazioneRepository.deleteById(prenotazione.getId());
     }
 
     @Override

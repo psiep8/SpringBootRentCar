@@ -21,7 +21,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class PrenotazioneController {
     private final PrenotazioneService prenotazioneService;
-
     private final PrenotazioneMapper prenotazioneMapper;
     private final UtenteService utenteService;
 
@@ -49,10 +48,8 @@ public class PrenotazioneController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<PrenotazioneDTO> deletePrenotazione(@PathVariable int id) {
-        PrenotazioneDTO p = prenotazioneService.getPrenotazione(id);
-        prenotazioneService.deletePrenotazione(p);
-        return ResponseEntity.ok(p);
+    public void deletePrenotazione(@PathVariable int id) {
+        prenotazioneService.deletePrenotazione(id);
     }
 
     private Utente getUtenteBySession() {

@@ -8,7 +8,7 @@ import java.util.List;
 public interface PrenotazioneService {
     void updatePrenotazione(PrenotazioneDTO prenotazioneDTO);
 
-    void deletePrenotazione(PrenotazioneDTO prenotazioneDTO);
+    void deletePrenotazione(int id);
 
     List<PrenotazioneDTO> getPrenotazioni();
 

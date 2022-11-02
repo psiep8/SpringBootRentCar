@@ -18,8 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -31,8 +29,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String[] ADMIN_MATCHER = {"/api/utente/**", "/api/utente"};
     private static final String[] AUTO_MATCHER = {"/api/auto/**"};
 
-
-    @Autowired
     private final UserDetailsService customUserDetailsService;
 
     @Bean

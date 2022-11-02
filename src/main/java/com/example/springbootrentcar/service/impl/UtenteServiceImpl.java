@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static com.example.springbootrentcar.mapper.UtenteMapper.settersDTOtoEntity;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,7 +29,7 @@ public class UtenteServiceImpl implements UtenteService {
     public void updateUtente(UtenteDTO utenteDTO) {
         if (utenteDTO.getId() != 0) {
             Utente utente = utenteRepository.findById(utenteDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + utenteDTO.getId()));
-            settersDTOtoEntity(utenteDTO, utente);
+            utenteMapper.settersDTOtoEntity(utenteDTO, utente);
             utenteRepository.save(utente);
         } else {
             utenteRepository.save(utenteMapper.fromDTOtoEntity(utenteDTO));
@@ -40,8 +38,9 @@ public class UtenteServiceImpl implements UtenteService {
 
     @Override
     @Transactional
-    public void deleteUtente(UtenteDTO utenteDTO) {
-        utenteRepository.delete(utenteMapper.fromDTOtoEntity(utenteDTO));
+    public void deleteUtente(int id) {
+        Utente utente = utenteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + id));
+        utenteRepository.deleteById(utente.getIdUtente());
     }
 
     @Override

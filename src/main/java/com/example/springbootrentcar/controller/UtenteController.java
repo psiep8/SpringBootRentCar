@@ -44,10 +44,8 @@ public class UtenteController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<UtenteDTO> deleteUtente(@PathVariable int id) {
-        UtenteDTO u = utenteService.getUser(id);
-        utenteService.deleteUtente(u);
-        return ResponseEntity.ok(u);
+    public void deleteUtente(@PathVariable int id) {
+        utenteService.deleteUtente(id);
     }
 
     @PostMapping("/approvata")

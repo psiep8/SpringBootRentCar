@@ -40,10 +40,8 @@ public class AutoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<AutoDTO> deleteAuto(@PathVariable int id) {
-        AutoDTO a = autoService.getAuto(id);
-        autoService.deleteAuto(a);
-        return ResponseEntity.ok(a);
+    public void deleteAuto(@PathVariable int id) {
+        autoService.deleteAuto(id);
     }
 
     @PostMapping("/filterDate")

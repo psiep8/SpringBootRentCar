@@ -20,8 +20,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.springbootrentcar.mapper.UtenteMapper.settersDTOtoEntity;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -46,8 +44,9 @@ public class AutoServiceImpl implements AutoService {
 
     @Transactional
     @Override
-    public void deleteAuto(AutoDTO autoDTO) {
-        autoRepository.delete(mapper.fromDTOtoEntity(autoDTO));
+    public void deleteAuto(int id) {
+        Auto auto = autoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + id));
+        autoRepository.deleteById(auto.getIdAuto());
     }
 
     @Override

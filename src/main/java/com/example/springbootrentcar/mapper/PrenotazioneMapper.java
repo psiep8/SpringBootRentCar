@@ -23,31 +23,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PrenotazioneMapper {
 
-    private final UtenteMapper utenteMapper;
-    private final AutoMapper autoMapper;
-
-
     public List<PrenotazioneDTO> getAllPrenotazioniDTO(List<Prenotazione> prenotazioni) {
 
         return prenotazioni.stream().map(this::fromEntityToDTO).collect(Collectors.toList());
 
     }
 
-    public Prenotazione fromDTOtoEntity(com.example.springbootrentcar.dto.PrenotazioneDTO prenotazioneDTO) {
+    public Prenotazione fromDTOtoEntity(PrenotazioneDTO prenotazioneDTO) {
         Prenotazione prenotazione = new Prenotazione();
-        prenotazione.setAuto(autoMapper.fromDTOtoEntity(prenotazioneDTO.getAuto()));
-        prenotazione.setUtente(utenteMapper.fromDTOtoEntity(prenotazioneDTO.getUtente()));
         prenotazione.setDataInizio(LocalDate.parse(prenotazioneDTO.getDataInizio()));
         prenotazione.setDataFine(LocalDate.parse(prenotazioneDTO.getDataFine()));
         prenotazione.setApprovata(prenotazioneDTO.isApprovata());
         return prenotazione;
     }
 
-    public com.example.springbootrentcar.dto.PrenotazioneDTO fromEntityToDTO(Prenotazione prenotazione) {
+    public PrenotazioneDTO fromEntityToDTO(Prenotazione prenotazione) {
         PrenotazioneDTO prenotazioneDTO = new PrenotazioneDTO();
         prenotazioneDTO.setId(prenotazione.getId());
-        prenotazioneDTO.setUtente(utenteMapper.fromEntityToDTO(prenotazione.getUtente()));
-        prenotazioneDTO.setAuto(autoMapper.fromEntityToDTO(prenotazione.getAuto()));
         prenotazioneDTO.setDataInizio(prenotazione.getDataInizio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         prenotazioneDTO.setDataFine(prenotazione.getDataFine().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         prenotazioneDTO.setApprovata(prenotazioneDTO.isApprovata());

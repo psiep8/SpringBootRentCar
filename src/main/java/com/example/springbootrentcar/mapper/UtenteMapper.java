@@ -25,10 +25,9 @@ public class UtenteMapper {
         return utente;
     }
 
-    public static void settersDTOtoEntity(UtenteDTO utenteDTO, Utente utente) {
+    public void settersDTOtoEntity(UtenteDTO utenteDTO, Utente utente) {
         utente.setNome(utenteDTO.getNome());
         utente.setCognome(utenteDTO.getCognome());
-        utente.setPassword(utenteDTO.getPassword());
         utente.setEmail(utenteDTO.getEmail());
         utente.setTelefono(utenteDTO.getTelefono());
         utente.setDataNascita(LocalDate.parse(utenteDTO.getDataNascita()));
@@ -40,7 +39,6 @@ public class UtenteMapper {
         utenteDTO.setId(utente.getIdUtente());
         utenteDTO.setNome(utente.getNome());
         utenteDTO.setCognome(utente.getCognome());
-        utenteDTO.setPassword(utente.getPassword());
         utenteDTO.setEmail(utente.getEmail());
         utenteDTO.setTelefono(utente.getTelefono());
         utenteDTO.setDataNascita(utente.getDataNascita().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));

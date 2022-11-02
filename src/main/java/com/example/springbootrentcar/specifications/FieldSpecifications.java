@@ -12,7 +12,8 @@ import javax.persistence.criteria.Root;
 
 @RequiredArgsConstructor
 public class FieldSpecifications implements Specification<Utente> {
-    private final String campo, filter;
+    private final String campo;
+    private final String filter;
 
     @Override
     public Predicate toPredicate(Root<Utente> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

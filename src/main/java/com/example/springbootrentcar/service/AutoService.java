@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface AutoService {
     void updateAuto(AutoDTO autoDTO);
 
-    void deleteAuto(AutoDTO autoDTO);
+    void deleteAuto(int id);
 
     List<AutoDTO> getAutoList();
 
