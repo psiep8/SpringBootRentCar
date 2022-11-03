@@ -19,6 +19,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
+import java.util.Arrays;
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -28,7 +35,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String[] USER_MATCHER = {"/api/prenotazione/**"};
     private static final String[] ADMIN_MATCHER = {"/api/utente/**", "/api/utente"};
     private static final String[] AUTO_MATCHER = {"/api/auto/**"};
-
     private final UserDetailsService customUserDetailsService;
 
     @Bean
@@ -52,16 +58,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+        //web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
+
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
         authenticationFilter.setFilterProcessesUrl("/login");
-        http.cors();
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setExposedHeaders(List.of("Authorization"));
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/api/auto").permitAll()
@@ -70,7 +80,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTO_MATCHER).hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint());
+                .exceptionHandling()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
+                .and()
+                .csrf()
+                .disable()
+                .cors()
+                .configurationSource(request -> corsConfiguration);
         http.addFilter(authenticationFilter)
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
@@ -92,5 +112,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }
-
 }

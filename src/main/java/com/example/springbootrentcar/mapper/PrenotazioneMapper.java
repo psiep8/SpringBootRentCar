@@ -24,9 +24,7 @@ import java.util.stream.Collectors;
 public class PrenotazioneMapper {
 
     public List<PrenotazioneDTO> getAllPrenotazioniDTO(List<Prenotazione> prenotazioni) {
-
         return prenotazioni.stream().map(this::fromEntityToDTO).collect(Collectors.toList());
-
     }
 
     public Prenotazione fromDTOtoEntity(PrenotazioneDTO prenotazioneDTO) {

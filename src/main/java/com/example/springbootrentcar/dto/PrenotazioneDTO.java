@@ -6,10 +6,13 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-
 public class PrenotazioneDTO {
+
     private int id;
+
     private String dataInizio;
+
     private String dataFine;
+
     private boolean approvata;
 }
