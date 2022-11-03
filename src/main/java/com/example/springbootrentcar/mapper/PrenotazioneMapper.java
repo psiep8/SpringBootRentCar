@@ -40,7 +40,7 @@ public class PrenotazioneMapper {
         prenotazioneDTO.setId(prenotazione.getId());
         prenotazioneDTO.setDataInizio(prenotazione.getDataInizio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         prenotazioneDTO.setDataFine(prenotazione.getDataFine().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        prenotazioneDTO.setApprovata(prenotazioneDTO.isApprovata());
+        prenotazioneDTO.setApprovata(prenotazione.isApprovata());
         return prenotazioneDTO;
     }
 
