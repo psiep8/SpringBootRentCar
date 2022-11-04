@@ -43,7 +43,7 @@ public class AutoController {
         autoService.deleteAuto(id);
     }
 
-    @PostMapping("/filterDate")
+    @GetMapping("/filterDate")
     public ResponseEntity<List<AutoDTO>> getDataRange(@RequestParam("inizio") String inizio, @RequestParam("fine") String fine) {
         List<AutoDTO> autoDisponibili = autoService.getDataRange(LocalDate.parse(inizio), LocalDate.parse(fine));
         return ResponseEntity.ok(autoDisponibili);

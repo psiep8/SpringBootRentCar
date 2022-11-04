@@ -8,15 +8,16 @@ import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.mapper.PrenotazioneMapper;
 import com.example.springbootrentcar.repository.PrenotazioneRepository;
 import com.example.springbootrentcar.service.PrenotazioneService;
+import com.example.springbootrentcar.service.UtenteService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -24,17 +25,29 @@ import java.util.stream.Collectors;
 public class PrenotazioneServiceImpl implements PrenotazioneService {
     private final PrenotazioneRepository prenotazioneRepository;
     private final PrenotazioneMapper prenotazioneMapper;
+    private final UtenteService utenteService;
 
     @Transactional
     @Override
-    public void updatePrenotazione(PrenotazioneDTO prenotazioneDTO) {
-        if (prenotazioneDTO.getId() != 0) {
+    public void updatePrenotazione(PrenotazioneDTO prenotazioneDTO, int idAuto) {
+        if (prenotazioneDTO.getId().intValue() != 0) {
             Prenotazione prenotazione = prenotazioneRepository.findById(prenotazioneDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + prenotazioneDTO.getId()));
             prenotazione.setDataInizio(LocalDate.parse(prenotazioneDTO.getDataInizio()));
             prenotazione.setDataFine(LocalDate.parse(prenotazioneDTO.getDataFine()));
+            Auto auto = new Auto();
+            auto.setIdAuto(idAuto);
+            prenotazione.setAuto(auto);
             prenotazioneRepository.save(prenotazione);
         } else {
-            prenotazioneRepository.save(prenotazioneMapper.fromDTOtoEntity(prenotazioneDTO));
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            Utente u = utenteService.getUserByEmail(email);
+            Prenotazione p = prenotazioneMapper.fromDTOtoEntity(prenotazioneDTO);
+            p.setUtente(u);
+            Auto auto = new Auto();
+            auto.setIdAuto(idAuto);
+            p.setAuto(auto);
+            prenotazioneRepository.save(p);
         }
     }
 
@@ -49,6 +62,14 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     public List<PrenotazioneDTO> getPrenotazioni() {
         List<Prenotazione> prenotazioni = prenotazioneRepository.findAll();
         return prenotazioneMapper.getAllPrenotazioniDTO(prenotazioni);
+    }
+
+    @Override
+    public void approvata(int id) {
+        Prenotazione prenotazioneDaApprovare = prenotazioneRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id)));
+        prenotazioneDaApprovare.setApprovata(true);
+        prenotazioneRepository.save(prenotazioneDaApprovare);
+
     }
 
     @Override

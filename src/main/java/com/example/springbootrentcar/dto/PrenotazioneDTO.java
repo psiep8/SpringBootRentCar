@@ -1,6 +1,6 @@
 package com.example.springbootrentcar.dto;
 
-import lombok.AllArgsConstructor;
+import com.example.springbootrentcar.entity.Auto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -8,11 +8,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PrenotazioneDTO {
 
-    private int id;
+    private Integer id;
 
     private String dataInizio;
 
     private String dataFine;
 
     private boolean approvata;
+
 }

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class AutoDTO {
-    private int id;
+    private Integer id;
     private String marca;
     private String modello;
     private int cilindrata;

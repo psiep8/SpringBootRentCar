@@ -17,8 +17,6 @@ public interface UtenteService {
 
     Utente getUserByEmail(String email);
 
-    void approvaPrenotazione(String string, int id);
-
     List<UtenteDTO> getColumn(String campo, String filter);
 
 }

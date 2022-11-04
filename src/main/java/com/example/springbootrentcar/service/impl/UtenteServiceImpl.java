@@ -60,12 +60,6 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
 
-    @Override
-    public void approvaPrenotazione(String string, int id) {
-        Prenotazione prenotazione = prenotazioneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id));
-        prenotazione.setApprovata(string.equalsIgnoreCase("Si"));
-        prenotazioneRepository.save(prenotazione);
-    }
 
     @Override
     public List<UtenteDTO> getColumn(String campo, String filter) {

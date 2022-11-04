@@ -17,7 +17,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UtenteDTO {
 
-    private int id;
+    private Integer id;
 
     private String nome;
 

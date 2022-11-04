@@ -33,7 +33,8 @@ import java.util.List;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static String REALM = "REAME";
     private static final String[] USER_MATCHER = {"/api/prenotazione/**"};
-    private static final String[] ADMIN_MATCHER = {"/api/utente/**", "/api/utente"};
+    private static final String[] ADMIN_MATCHER = {"/api/utente/**"};
+
     private static final String[] AUTO_MATCHER = {"/api/auto/**"};
     private final UserDetailsService customUserDetailsService;
 
@@ -69,9 +70,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/api/auto").permitAll()
+                .antMatchers("http://localhost:8080/api/prenotazione/approvata?**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(USER_MATCHER).hasAnyAuthority("ROLE_USER")
                 .antMatchers(ADMIN_MATCHER).hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(AUTO_MATCHER).hasAnyAuthority("ROLE_ADMIN")
+                // .antMatchers(AUTO_MATCHER).hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

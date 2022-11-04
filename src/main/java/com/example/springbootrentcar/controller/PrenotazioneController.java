@@ -1,9 +1,11 @@
 package com.example.springbootrentcar.controller;
 
+import com.example.springbootrentcar.dto.AutoDTO;
 import com.example.springbootrentcar.dto.PrenotazioneDTO;
-import com.example.springbootrentcar.dto.UtenteDTO;
+import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.entity.Utente;
+import com.example.springbootrentcar.exception.ResourceNotFoundException;
 import com.example.springbootrentcar.mapper.PrenotazioneMapper;
 import com.example.springbootrentcar.service.PrenotazioneService;
 import com.example.springbootrentcar.service.UtenteService;
@@ -32,9 +34,8 @@ public class PrenotazioneController {
     }
 
     @PostMapping("/save")
-    public void savePrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO) {
-        prenotazioneDTO.setApprovata(false);
-        prenotazioneService.updatePrenotazione(prenotazioneDTO);
+    public void savePrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO, @RequestParam("autoID") int idAuto) {
+        prenotazioneService.updatePrenotazione(prenotazioneDTO, idAuto);
     }
 
     @GetMapping("/{id}")
@@ -43,9 +44,15 @@ public class PrenotazioneController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<PrenotazioneDTO> updatePrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO) {
-        prenotazioneService.updatePrenotazione(prenotazioneDTO);
+    public ResponseEntity<PrenotazioneDTO> updatePrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO, @RequestParam("autoID") int idAuto) {
+        prenotazioneService.updatePrenotazione(prenotazioneDTO, idAuto);
         return ResponseEntity.ok(prenotazioneDTO);
+    }
+
+
+    @PostMapping("/approvata")
+    public void approvata(@RequestParam("prenotazioneID") int id) {
+        prenotazioneService.approvata(id);
     }
 
     @DeleteMapping("/delete/{id}")
