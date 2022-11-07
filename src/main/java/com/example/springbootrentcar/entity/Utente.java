@@ -1,5 +1,6 @@
 package com.example.springbootrentcar.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,6 +46,7 @@ public class Utente implements Serializable {
     private boolean customer;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "utente", orphanRemoval = true)
+    @JsonIgnore
     private List<Prenotazione> prenotazioniFromUtenteItems;
 
 

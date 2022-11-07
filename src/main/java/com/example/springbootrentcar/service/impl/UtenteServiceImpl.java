@@ -27,7 +27,7 @@ public class UtenteServiceImpl implements UtenteService {
     @Override
     @Transactional
     public void updateUtente(UtenteDTO utenteDTO) {
-        if (utenteDTO.getId() != 0) {
+        if (utenteDTO.getId() != null) {
             Utente utente = utenteRepository.findById(utenteDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + utenteDTO.getId()));
             utenteMapper.settersDTOtoEntity(utenteDTO, utente);
             utenteRepository.save(utente);

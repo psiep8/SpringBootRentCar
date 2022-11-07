@@ -41,6 +41,11 @@ public class UtenteController {
         return result;
     }
 
+    @PostMapping("/approvata")
+    public void approvata(@RequestParam("prenotazioneID") int id) {
+        prenotazioneService.approvata(id);
+    }
+
     @PostMapping("/save")
     public void saveUtente(@RequestBody UtenteDTO utenteDTO) {
         utenteDTO.setCustomer(true);
@@ -50,6 +55,11 @@ public class UtenteController {
     @GetMapping("/{id}")
     public UtenteDTO getUtenteById(@PathVariable int id) {
         return utenteService.getUser(id);
+    }
+
+    @GetMapping("/email")
+    public Utente getUserByEmail(@RequestParam String email) {
+        return utenteService.getUserByEmail(email);
     }
 
     @PutMapping("/edit")

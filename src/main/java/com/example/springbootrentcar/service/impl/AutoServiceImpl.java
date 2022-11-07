@@ -31,7 +31,7 @@ public class AutoServiceImpl implements AutoService {
     @Transactional
     @Override
     public void updateAuto(AutoDTO autoDTO) {
-        if (autoDTO.getId() != 0) {
+        if (autoDTO.getId() != null) {
             Auto auto = autoRepository.findById(autoDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + autoDTO.getId()));
             auto.setMarca(autoDTO.getMarca());
             auto.setModello(autoDTO.getModello());
