@@ -36,7 +36,7 @@ public class UtenteMapper {
 
     public UtenteDTO fromEntityToDTO(Utente utente) {
         UtenteDTO utenteDTO = new UtenteDTO();
-        utenteDTO.setId(utente.getIdUtente());
+        utenteDTO.setIdUtente(utente.getIdUtente());
         utenteDTO.setNome(utente.getNome());
         utenteDTO.setCognome(utente.getCognome());
         utenteDTO.setEmail(utente.getEmail());

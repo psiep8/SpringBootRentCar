@@ -45,6 +45,7 @@ public class PrenotazioneController {
 
     @PutMapping("/edit")
     public ResponseEntity<PrenotazioneDTO> updatePrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO, @RequestParam("autoID") int idAuto) {
+        prenotazioneDTO.setApprovata(false);
         prenotazioneService.updatePrenotazione(prenotazioneDTO, idAuto);
         return ResponseEntity.ok(prenotazioneDTO);
     }

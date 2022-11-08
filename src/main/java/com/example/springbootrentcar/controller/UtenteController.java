@@ -52,7 +52,7 @@ public class UtenteController {
         utenteService.updateUtente(utenteDTO);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public UtenteDTO getUtenteById(@PathVariable int id) {
         return utenteService.getUser(id);
     }
