@@ -19,4 +19,5 @@ public interface UtenteService {
 
     List<UtenteDTO> getColumn(String campo, String filter);
 
+    Utente getUtenteBySession();
 }

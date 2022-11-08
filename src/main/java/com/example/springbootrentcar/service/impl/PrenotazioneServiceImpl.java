@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     @Override
     public void updatePrenotazione(PrenotazioneDTO prenotazioneDTO, int idAuto) {
         if (prenotazioneDTO.getId().intValue() != 0) {
+            prenotazioneDTO.setApprovata(false);
             Prenotazione prenotazione = prenotazioneRepository.findById(prenotazioneDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + prenotazioneDTO.getId()));
             prenotazione.setDataInizio(LocalDate.parse(prenotazioneDTO.getDataInizio()));
             prenotazione.setDataFine(LocalDate.parse(prenotazioneDTO.getDataFine()));
@@ -65,6 +67,18 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     }
 
     @Override
+    public List<PrenotazioneDTO> listPrenotazioniToApprove() {
+        List<Prenotazione> prenotazioni = prenotazioneRepository.findAll();
+        List<Prenotazione> result = new ArrayList<>();
+        for (Prenotazione p : prenotazioni) {
+            if (!p.isApprovata()) {
+                result.add(p);
+            }
+        }
+        return prenotazioneMapper.getAllPrenotazioniDTO(result);
+    }
+
+    @Override
     public void approvata(int id) {
         Prenotazione prenotazioneDaApprovare = prenotazioneRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id)));
         prenotazioneDaApprovare.setApprovata(true);
@@ -76,6 +90,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     public PrenotazioneDTO getPrenotazione(int id) {
         return prenotazioneMapper.fromEntityToDTO(prenotazioneRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id))));
     }
+
 
 
 }

@@ -30,15 +30,8 @@ public class UtenteController {
     }
 
     @GetMapping("/listPrenotazioni")
-    public List<PrenotazioneDTO> listPrenotazioni() {
-        List<PrenotazioneDTO> list = prenotazioneService.getPrenotazioni();
-        List<PrenotazioneDTO> result = new ArrayList<>();
-        for (PrenotazioneDTO p : list) {
-            if (!p.isApprovata()) {
-                result.add(p);
-            }
-        }
-        return result;
+    public List<PrenotazioneDTO> listPrenotazioniNotApproved() {
+        return prenotazioneService.listPrenotazioniToApprove();
     }
 
     @PostMapping("/approvata")
@@ -46,9 +39,8 @@ public class UtenteController {
         prenotazioneService.approvata(id);
     }
 
-    @PostMapping("/save")
-    public void saveUtente(@RequestBody UtenteDTO utenteDTO) {
-        utenteDTO.setCustomer(true);
+    @RequestMapping(value = "/upSert", method = {RequestMethod.POST, RequestMethod.PUT})
+    public void upSertUtente(@RequestBody UtenteDTO utenteDTO) {
         utenteService.updateUtente(utenteDTO);
     }
 
@@ -60,13 +52,6 @@ public class UtenteController {
     @GetMapping("/email")
     public Utente getUserByEmail(@RequestParam String email) {
         return utenteService.getUserByEmail(email);
-    }
-
-    @PutMapping("/edit")
-    public ResponseEntity<UtenteDTO> updateUtente(@RequestBody UtenteDTO utenteDTO) {
-        utenteService.updateUtente(utenteDTO);
-        return ResponseEntity.ok(utenteDTO);
-
     }
 
     @DeleteMapping("/delete/{id}")

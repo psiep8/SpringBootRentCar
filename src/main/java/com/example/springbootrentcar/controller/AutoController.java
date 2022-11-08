@@ -1,6 +1,7 @@
 package com.example.springbootrentcar.controller;
 
 import com.example.springbootrentcar.dto.AutoDTO;
+import com.example.springbootrentcar.dto.PrenotazioneDTO;
 import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Utente;
 import com.example.springbootrentcar.service.AutoService;
@@ -22,20 +23,14 @@ public class AutoController {
         return autoService.getAutoList();
     }
 
-    @PostMapping("/save")
-    public void saveAuto(@RequestBody AutoDTO autoDTO) {
+    @RequestMapping(value = "/upSert", method = {RequestMethod.POST, RequestMethod.PUT})
+    public void upSertAuto(@RequestBody AutoDTO autoDTO) {
         autoService.updateAuto(autoDTO);
     }
 
     @GetMapping("/{id}")
     public AutoDTO getAutoById(@PathVariable int id) {
         return autoService.getAuto(id);
-    }
-
-    @PutMapping("/edit")
-    public ResponseEntity<AutoDTO> updateAuto(@RequestBody AutoDTO autoDTO) {
-        autoService.updateAuto(autoDTO);
-        return ResponseEntity.ok(autoDTO);
     }
 
     @DeleteMapping("/delete/{id}")

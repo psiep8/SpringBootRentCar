@@ -10,6 +10,8 @@ import com.example.springbootrentcar.service.UtenteService;
 import com.example.springbootrentcar.specifications.EmailSpecifications;
 import com.example.springbootrentcar.specifications.FieldSpecifications;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +33,7 @@ public class UtenteServiceImpl implements UtenteService {
             utenteMapper.settersDTOtoEntity(utenteDTO, utente);
             utenteRepository.save(utente);
         } else {
+            utenteDTO.setCustomer(true);
             utenteRepository.save(utenteMapper.fromDTOtoEntity(utenteDTO));
         }
     }
@@ -59,11 +62,17 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
 
-
     @Override
     public List<UtenteDTO> getColumn(String campo, String filter) {
         FieldSpecifications fs = new FieldSpecifications(campo, filter);
         return utenteMapper.getAllUtentiDTO(utenteRepository.findAll(fs));
+    }
+
+    @Override
+    public Utente getUtenteBySession() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return getUserByEmail(email);
     }
 
 

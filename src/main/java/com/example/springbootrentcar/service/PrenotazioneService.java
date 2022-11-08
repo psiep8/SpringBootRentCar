@@ -12,6 +12,8 @@ public interface PrenotazioneService {
 
     List<PrenotazioneDTO> getPrenotazioni();
 
+    List<PrenotazioneDTO> listPrenotazioniToApprove();
+
     public void approvata(int id);
 
     PrenotazioneDTO getPrenotazione(int id);

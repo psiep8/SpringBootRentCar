@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auto").permitAll()
                 .antMatchers("/api/utente/email**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .antMatchers("/api/utente/id/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                .antMatchers("/api/utente/edit/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/api/utente/upSert/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .antMatchers("/api/auto/filterDate**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .antMatchers(USER_MATCHER).hasAnyAuthority("ROLE_USER")
                 .antMatchers(ADMIN_MATCHER).hasAnyAuthority("ROLE_ADMIN")

@@ -2,6 +2,7 @@ package com.example.springbootrentcar.controller;
 
 import com.example.springbootrentcar.dto.AutoDTO;
 import com.example.springbootrentcar.dto.PrenotazioneDTO;
+import com.example.springbootrentcar.dto.UtenteDTO;
 import com.example.springbootrentcar.entity.Auto;
 import com.example.springbootrentcar.entity.Prenotazione;
 import com.example.springbootrentcar.entity.Utente;
@@ -29,12 +30,12 @@ public class PrenotazioneController {
 
     @GetMapping("")
     public List<PrenotazioneDTO> listPrenotazioni() {
-        Utente u = getUtenteBySession();
+        Utente u = utenteService.getUtenteBySession();
         return prenotazioneMapper.getAllPrenotazioniDTO(u.getPrenotazioniFromUtenteItems());
     }
 
-    @PostMapping("/save")
-    public void savePrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO, @RequestParam("autoID") int idAuto) {
+    @RequestMapping(value = "/upSert", method = {RequestMethod.POST, RequestMethod.PUT})
+    public void upSertPrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO, @RequestParam("autoID") int idAuto) {
         prenotazioneService.updatePrenotazione(prenotazioneDTO, idAuto);
     }
 
@@ -42,14 +43,6 @@ public class PrenotazioneController {
     public PrenotazioneDTO getPrenotazioneById(@PathVariable int id) {
         return prenotazioneService.getPrenotazione(id);
     }
-
-    @PutMapping("/edit")
-    public ResponseEntity<PrenotazioneDTO> updatePrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO, @RequestParam("autoID") int idAuto) {
-        prenotazioneDTO.setApprovata(false);
-        prenotazioneService.updatePrenotazione(prenotazioneDTO, idAuto);
-        return ResponseEntity.ok(prenotazioneDTO);
-    }
-
 
     @PostMapping("/approvata")
     public void approvata(@RequestParam("prenotazioneID") int id) {
@@ -64,12 +57,6 @@ public class PrenotazioneController {
         } else {
             throw new Exception("Errore, non è possibile cancellare entro due giorni dalla prenotazione");
         }
-    }
-
-    private Utente getUtenteBySession() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        return utenteService.getUserByEmail(email);
     }
 
 }
