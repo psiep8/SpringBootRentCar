@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,9 +56,14 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
     @Transactional
     @Override
-    public void deletePrenotazione(int id) {
+    public void deletePrenotazione(int id) throws Exception {
         Prenotazione prenotazione = prenotazioneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utente non esiste con id:" + id));
-        prenotazioneRepository.deleteById(prenotazione.getId());
+        LocalDate dataInizio = prenotazione.getDataInizio();
+        if (dataInizio.until(LocalDate.now(), ChronoUnit.DAYS) > 2) {
+            prenotazioneRepository.deleteById(id);
+        } else {
+            throw new Exception("Errore, non è possibile cancellare entro due giorni dalla prenotazione");
+        }
     }
 
     @Override
@@ -90,7 +96,6 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
     public PrenotazioneDTO getPrenotazione(int id) {
         return prenotazioneMapper.fromEntityToDTO(prenotazioneRepository.findById(id).orElseThrow((() -> new ResourceNotFoundException("Prenotazione non esiste con id:" + id))));
     }
-
 
 
 }

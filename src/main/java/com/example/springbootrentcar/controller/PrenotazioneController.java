@@ -51,12 +51,8 @@ public class PrenotazioneController {
 
     @DeleteMapping("/delete/{id}")
     public void deletePrenotazione(@PathVariable int id) throws Exception {
-        LocalDate dataInizio = LocalDate.parse(prenotazioneService.getPrenotazione(id).getDataInizio());
-        if (dataInizio.until(LocalDate.now(), ChronoUnit.DAYS) > 2) {
-            prenotazioneService.deletePrenotazione(id);
-        } else {
-            throw new Exception("Errore, non è possibile cancellare entro due giorni dalla prenotazione");
-        }
+        prenotazioneService.deletePrenotazione(id);
+
     }
 
 }
