@@ -16,4 +16,6 @@ public class PrenotazioneDTO {
 
     private boolean approvata;
 
+    private String auto;
+
 }

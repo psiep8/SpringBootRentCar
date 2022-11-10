@@ -41,6 +41,7 @@ public class PrenotazioneMapper {
         prenotazioneDTO.setDataInizio(prenotazione.getDataInizio().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         prenotazioneDTO.setDataFine(prenotazione.getDataFine().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         prenotazioneDTO.setApprovata(prenotazione.isApprovata());
+        prenotazioneDTO.setAuto(prenotazione.getAuto().getMarca() + " " + prenotazione.getAuto().getModello());
         return prenotazioneDTO;
     }
 

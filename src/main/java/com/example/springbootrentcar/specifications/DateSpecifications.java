@@ -20,9 +20,13 @@ public class DateSpecifications {
 
     public static Specification<Prenotazione> getRangeData(LocalDate inizio, LocalDate fine) {
         return (root, query, criteriaBuilder) -> {
-            Predicate datePredicateBetween = criteriaBuilder.and(criteriaBuilder.greaterThan(
-                    root.get("dataInizio"), inizio), criteriaBuilder.lessThanOrEqualTo(
-                    root.get("dataFine"), fine));
+            Predicate datePredicateBetween = criteriaBuilder
+                    .and(criteriaBuilder
+                                    .lessThanOrEqualTo(root
+                                            .get("dataInizio"), inizio),
+                            criteriaBuilder
+                                    .greaterThanOrEqualTo(root
+                                            .get("dataFine"), fine));
             Predicate datePredicate = criteriaBuilder.or(
                     datePredicateBetween,
                     criteriaBuilder.or(
